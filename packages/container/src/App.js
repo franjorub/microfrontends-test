@@ -1,12 +1,19 @@
 import React from "react";
-import MarketingApp from "./components/MarketingApp";
+
+const MarketingApp = React.lazy(() =>
+  import("./components/MarketingApp").catch((e) => ({
+    default: () => <div>Can't load marketing section</div>,
+  }))
+);
 
 export default function App() {
   return (
     <div>
-      <h1>Hello from container</h1>
+      <h1>Hello from container!</h1>
       <hr />
-      <MarketingApp />
+      <React.Suspense fallback={<div>Loading Marketing from remote...</div>}>
+        <MarketingApp />
+      </React.Suspense>
     </div>
   );
 }
